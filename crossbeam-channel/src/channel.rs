@@ -398,7 +398,7 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn try_send(&self, msg: T) -> Result<(), TrySendError<T>> {
-        if self.len() > 30 {
+        if self.len() > 60 {
             let location = Location::caller();
             println!(
                 "'{:?}:{:?}' called try_send, pre-length: {:?}",
@@ -444,7 +444,7 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn send(&self, msg: T) -> Result<(), SendError<T>> {
-        if self.len() > 30 {
+        if self.len() > 60 {
             let location = Location::caller();
             println!(
                 "'{:?}:{:?}' called :send, pre-length: {:?}",
@@ -504,7 +504,7 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn send_timeout(&self, msg: T, timeout: Duration) -> Result<(), SendTimeoutError<T>> {
-        if self.len() > 30 {
+        if self.len() > 60 {
             let location = Location::caller();
             println!(
                 "'{:?}:{:?}' called :send, pre-length: {:?}",
@@ -561,7 +561,7 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn send_deadline(&self, msg: T, deadline: Instant) -> Result<(), SendTimeoutError<T>> {
-        if self.len() > 30 {
+        if self.len() > 60 {
             let location = Location::caller();
             println!(
                 "'{:?}:{:?}' called :send_deadline, pre-length: {:?}",
@@ -801,7 +801,7 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn try_recv(&self) -> Result<T, TryRecvError> {
-        if self.len() > 30 {
+        if self.len() > 60 {
             let location = Location::caller();
             println!(
                 "'{:?}:{:?}' called try_recv, pre-length: {:?}",
@@ -865,7 +865,7 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn recv(&self) -> Result<T, RecvError> {
-        if self.len() > 30 {
+        if self.len() > 60 {
             let location = Location::caller();
             println!(
                 "'{:?}:{:?}' called recv, pre-length: {:?}",
@@ -941,7 +941,7 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn recv_timeout(&self, timeout: Duration) -> Result<T, RecvTimeoutError> {
-        if self.len() > 30 {
+        if self.len() > 60 {
             let location = Location::caller();
             println!(
                 "'{:?}:{:?}' called recv_timeout, pre-length: {:?}",
@@ -998,7 +998,7 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn recv_deadline(&self, deadline: Instant) -> Result<T, RecvTimeoutError> {
-        if self.len() > 30 {
+        if self.len() > 60 {
             let location = Location::caller();
             println!(
                 "'{:?}:{:?}' called recv, pre-length: {:?}",

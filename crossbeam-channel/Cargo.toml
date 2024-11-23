@@ -25,6 +25,7 @@ std = ["crossbeam-utils/std"]
 
 [dependencies]
 crossbeam-utils = { version = "0.8.18", path = "../crossbeam-utils", default-features = false }
+log = "0.4.22"
 
 [dev-dependencies]
 num_cpus = "1.13.0"

@@ -400,13 +400,15 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn try_send(&self, msg: T) -> Result<(), TrySendError<T>> {
-        let location = Location::caller();
-        info!(
-            "'{:?}:{:?}' called try_send, pre-length: {:?}",
-            location.file(),
-            location.line(),
-            self.len()
-        );
+        if self.len() > 60 {
+            let location = Location::caller();
+            info!(
+                "'{:?}:{:?}' called try_send, pre-length: {:?}",
+                location.file(),
+                location.line(),
+                self.len()
+            );
+        }
         match &self.flavor {
             SenderFlavor::Array(chan) => chan.try_send(msg),
             SenderFlavor::List(chan) => chan.try_send(msg),
@@ -444,13 +446,15 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn send(&self, msg: T) -> Result<(), SendError<T>> {
-        let location = Location::caller();
-        info!(
-            "'{:?}:{:?}' called send, pre-length: {:?}",
-            location.file(),
-            location.line(),
-            self.len()
-        );
+        if self.len() > 60 {
+            let location = Location::caller();
+            info!(
+                "'{:?}:{:?}' called :send, pre-length: {:?}",
+                location.file(),
+                location.line(),
+                self.len()
+            );
+        }
 
         match &self.flavor {
             SenderFlavor::Array(chan) => chan.send(msg, None),
@@ -502,13 +506,15 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn send_timeout(&self, msg: T, timeout: Duration) -> Result<(), SendTimeoutError<T>> {
-        let location = Location::caller();
-        info!(
-            "'{:?}:{:?}' called send, pre-length: {:?}",
-            location.file(),
-            location.line(),
-            self.len()
-        );
+        if self.len() > 60 {
+            let location = Location::caller();
+            info!(
+                "'{:?}:{:?}' called :send, pre-length: {:?}",
+                location.file(),
+                location.line(),
+                self.len()
+            );
+        }
 
         match Instant::now().checked_add(timeout) {
             Some(deadline) => self.send_deadline(msg, deadline),
@@ -557,13 +563,15 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn send_deadline(&self, msg: T, deadline: Instant) -> Result<(), SendTimeoutError<T>> {
-        let location = Location::caller();
-        info!(
-            "'{:?}:{:?}' called :send_deadline, pre-length: {:?}",
-            location.file(),
-            location.line(),
-            self.len()
-        );
+        if self.len() > 60 {
+            let location = Location::caller();
+            info!(
+                "'{:?}:{:?}' called :send_deadline, pre-length: {:?}",
+                location.file(),
+                location.line(),
+                self.len()
+            );
+        }
 
         match &self.flavor {
             SenderFlavor::Array(chan) => chan.send(msg, Some(deadline)),
@@ -795,13 +803,15 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn try_recv(&self) -> Result<T, TryRecvError> {
-        let location = Location::caller();
-        info!(
-            "'{:?}:{:?}' called try_recv, pre-length: {:?}",
-            location.file(),
-            location.line(),
-            self.len()
-        );
+        if self.len() > 60 {
+            let location = Location::caller();
+            info!(
+                "'{:?}:{:?}' called try_recv, pre-length: {:?}",
+                location.file(),
+                location.line(),
+                self.len()
+            );
+        }
 
         match &self.flavor {
             ReceiverFlavor::Array(chan) => chan.try_recv(),
@@ -857,13 +867,15 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn recv(&self) -> Result<T, RecvError> {
-        let location = Location::caller();
-        info!(
-            "'{:?}:{:?}' called recv, pre-length: {:?}",
-            location.file(),
-            location.line(),
-            self.len()
-        );
+        if self.len() > 60 {
+            let location = Location::caller();
+            info!(
+                "'{:?}:{:?}' called recv, pre-length: {:?}",
+                location.file(),
+                location.line(),
+                self.len()
+            );
+        }
 
         match &self.flavor {
             ReceiverFlavor::Array(chan) => chan.recv(None),
@@ -931,13 +943,15 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn recv_timeout(&self, timeout: Duration) -> Result<T, RecvTimeoutError> {
-        let location = Location::caller();
-        info!(
-            "'{:?}:{:?}' called recv_timeout, pre-length: {:?}",
-            location.file(),
-            location.line(),
-            self.len()
-        );
+        if self.len() > 60 {
+            let location = Location::caller();
+            info!(
+                "'{:?}:{:?}' called recv_timeout, pre-length: {:?}",
+                location.file(),
+                location.line(),
+                self.len()
+            );
+        }
 
         match Instant::now().checked_add(timeout) {
             Some(deadline) => self.recv_deadline(deadline),
@@ -986,13 +1000,15 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn recv_deadline(&self, deadline: Instant) -> Result<T, RecvTimeoutError> {
-        let location = Location::caller();
-        info!(
-            "'{:?}:{:?}' called recv, pre-length: {:?}",
-            location.file(),
-            location.line(),
-            self.len()
-        );
+        if self.len() > 60 {
+            let location = Location::caller();
+            info!(
+                "'{:?}:{:?}' called recv, pre-length: {:?}",
+                location.file(),
+                location.line(),
+                self.len()
+            );
+        }
 
         match &self.flavor {
             ReceiverFlavor::Array(chan) => chan.recv(Some(deadline)),

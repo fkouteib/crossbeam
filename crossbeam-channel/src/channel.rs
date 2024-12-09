@@ -1,13 +1,12 @@
 //! The channel interface.
 
 use log::info;
+use std::fmt;
 use std::iter::FusedIterator;
 use std::mem;
 use std::panic::{Location, RefUnwindSafe, UnwindSafe};
 use std::sync::Arc;
 use std::time::{Duration, Instant};
-use std::fmt;
-
 
 use crate::context::Context;
 use crate::counter;
@@ -400,7 +399,7 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn try_send(&self, msg: T) -> Result<(), TrySendError<T>> {
-        if self.len()> 1000 {
+        if self.len() > 0 && self.len() % 500 == 0 {
             let location = Location::caller();
             info!(
                 "'{:?}:{:?}' called try_send, pre-length: {:?}",
@@ -446,7 +445,7 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn send(&self, msg: T) -> Result<(), SendError<T>> {
-        if self.len()> 1000 {
+        if self.len() > 0 && self.len() % 500 == 0 {
             let location = Location::caller();
             info!(
                 "'{:?}:{:?}' called :send, pre-length: {:?}",
@@ -506,7 +505,7 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn send_timeout(&self, msg: T, timeout: Duration) -> Result<(), SendTimeoutError<T>> {
-        if self.len()> 1000 {
+        if self.len() > 0 && self.len() % 500 == 0 {
             let location = Location::caller();
             info!(
                 "'{:?}:{:?}' called :send, pre-length: {:?}",
@@ -563,7 +562,7 @@ impl<T> Sender<T> {
     /// ```
     #[track_caller]
     pub fn send_deadline(&self, msg: T, deadline: Instant) -> Result<(), SendTimeoutError<T>> {
-        if self.len()> 1000 {
+        if self.len() > 0 && self.len() % 500 == 0 {
             let location = Location::caller();
             info!(
                 "'{:?}:{:?}' called :send_deadline, pre-length: {:?}",
@@ -803,7 +802,7 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn try_recv(&self) -> Result<T, TryRecvError> {
-        if self.len()> 1000 {
+        if self.len() > 0 && self.len() % 500 == 0 {
             let location = Location::caller();
             info!(
                 "'{:?}:{:?}' called try_recv, pre-length: {:?}",
@@ -867,7 +866,7 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn recv(&self) -> Result<T, RecvError> {
-        if self.len()> 1000 {
+        if self.len() > 0 && self.len() % 500 == 0 {
             let location = Location::caller();
             info!(
                 "'{:?}:{:?}' called recv, pre-length: {:?}",
@@ -943,7 +942,7 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn recv_timeout(&self, timeout: Duration) -> Result<T, RecvTimeoutError> {
-        if self.len()> 1000 {
+        if self.len() > 0 && self.len() % 500 == 0 {
             let location = Location::caller();
             info!(
                 "'{:?}:{:?}' called recv_timeout, pre-length: {:?}",
@@ -1000,7 +999,7 @@ impl<T> Receiver<T> {
     /// ```
     #[track_caller]
     pub fn recv_deadline(&self, deadline: Instant) -> Result<T, RecvTimeoutError> {
-        if self.len()> 1000 {
+        if self.len() > 0 && self.len() % 500 == 0 {
             let location = Location::caller();
             info!(
                 "'{:?}:{:?}' called recv, pre-length: {:?}",
